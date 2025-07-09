@@ -1,0 +1,123 @@
+mysql> create database hospital_managment;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| hospital_managment |
+| information_schema |
+| inovo_project      |
+| jdbc               |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+7 rows in set (0.02 sec)
+
+mysql> use hospital_managment;
+Database changed
+mysql> create table patients(
+    -> id int auto_increment primary key,
+    -> name varchar(225) not null,
+    -> age int not null,
+    -> gender varchar(10) not null);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc patients;
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| id     | int          | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(225) | NO   |     | NULL    |                |
+| age    | int          | NO   |     | NULL    |                |
+| gender | varchar(10)  | NO   |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+4 rows in set (0.02 sec)
+
+mysql> create table doctors(
+    -> id int auto_increment primary key,
+    -> name varchar(225) not null,
+    -> specialization varchar(50) not null);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc doctors;
++----------------+--------------+------+-----+---------+----------------+
+| Field          | Type         | Null | Key | Default | Extra          |
++----------------+--------------+------+-----+---------+----------------+
+| id             | int          | NO   | PRI | NULL    | auto_increment |
+| name           | varchar(225) | NO   |     | NULL    |                |
+| specialization | varchar(50)  | NO   |     | NULL    |                |
++----------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> create table appointments(
+    -> id int auto_increment primary key,
+    -> patient_id int not null,
+    -> doctor_id int not null,
+    -> appointment_day date not null,
+    -> foreign key(patient_id) references patients(id),
+    -> foreign key(doctor_id) references doctors(id)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc appointments;
++-----------------+------+------+-----+---------+----------------+
+| Field           | Type | Null | Key | Default | Extra          |
++-----------------+------+------+-----+---------+----------------+
+| id              | int  | NO   | PRI | NULL    | auto_increment |
+| patient_id      | int  | NO   | MUL | NULL    |                |
+| doctor_id       | int  | NO   | MUL | NULL    |                |
+| appointment_day | date | NO   |     | NULL    |                |
++-----------------+------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> show tables;
++------------------------------+
+| Tables_in_hospital_managment |
++------------------------------+
+| appointments                 |
+| doctors                      |
+| patients                     |
++------------------------------+
+3 rows in set (0.01 sec)
+
+mysql> insert into doctors(name,specialization) values ("Srinithya","Ortho");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into doctors(name,specialization) values ("Renuka","Pediatric");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from doctors;
++----+-----------+----------------+
+| id | name      | specialization |
++----+-----------+----------------+
+|  1 | Srinithya | Ortho          |
+|  2 | Renuka    | Pediatric      |
++----+-----------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from patients;
++----+------+-----+--------+
+| id | name | age | gender |
++----+------+-----+--------+
+|  1 | ram  |  13 | male   |
++----+------+-----+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from doctors;
++----+-----------+----------------+
+| id | name      | specialization |
++----+-----------+----------------+
+|  1 | Srinithya | Ortho          |
+|  2 | Renuka    | Pediatric      |
++----+-----------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from appointments;
++----+------------+-----------+-----------------+
+| id | patient_id | doctor_id | appointment_day |
++----+------------+-----------+-----------------+
+|  1 |          1 |         2 | 2025-07-09      |
++----+------------+-----------+-----------------+
+1 row in set (0.00 sec)
